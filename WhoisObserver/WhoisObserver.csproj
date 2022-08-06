@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Pototsky Alexander</Authors>
+    <Company>Pototsky Alexander</Company>
+    <Product>WhoisObserver</Product>
+    <Description>whios help library</Description>
+    <Copyright>Pototsky Alexander</Copyright>
+    <PackageProjectUrl>https://github.com/hekkaaa/WhoisObserver</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hekkaaa/WhoisObserver</RepositoryUrl>
+    <PackageTags>whios, parsin, lookup, dns</PackageTags>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="System.Text.Json" Version="6.0.5" />
+  </ItemGroup>
+
+</Project>
