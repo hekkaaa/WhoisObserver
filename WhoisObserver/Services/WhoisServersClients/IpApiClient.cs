@@ -18,7 +18,7 @@ namespace WhoisObserver.Services.WhoisServersClients
             _mapper = mapper;
         }
 
-        public async Task<string> GetResponceJson(string host)
+        public async Task<string> ResponceJson(string host)
         {
             string request = $"http://ip-api.com/json/{host}";
 
@@ -29,9 +29,9 @@ namespace WhoisObserver.Services.WhoisServersClients
             return _responseBody;
         }
 
-        public async Task<WhoisResponseModel> GetResponceObject(string host)
+        public async Task<WhoisResponseModel> ResponceObject(string host)
         {
-            _responseBody = await GetResponceJson(host);
+            _responseBody = await ResponceJson(host);
 
             if (_responseBody != null)
             {

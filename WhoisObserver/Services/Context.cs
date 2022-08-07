@@ -28,7 +28,7 @@ namespace WhoisObserver.Services
 
         public async Task<string> GetResponseJsonAsync(string host)
         {
-            var result = await this._strategy.GetResponceJson(host);
+            var result = await this._strategy.ResponceJson(host);
        
             if (!String.IsNullOrWhiteSpace(result))
             {   
@@ -42,7 +42,7 @@ namespace WhoisObserver.Services
 
         public async Task<WhoisResponseModel> GetResponseModelAsync(string host)
         {
-            WhoisResponseModel result = await this._strategy.GetResponceObject(host);
+            WhoisResponseModel result = await this._strategy.ResponceObject(host);
 
             if (result == null)
             {
