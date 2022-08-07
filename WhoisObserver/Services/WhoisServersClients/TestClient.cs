@@ -14,12 +14,12 @@ namespace WhoisObserver.Services.WhoisServersClients
             _mapper = mapper;
         }
 
-        public Task<WhoisResponseModel> GetResponceObject(string host)
+        public Task<WhoisResponseModel> ResponceObject(string host)
         {
             return null;
         }
 
-        public Task<string> GetResponceJson(string host)
+        public Task<string> ResponceJson(string host)
         {
             return Task.FromResult(string.Empty);
         }

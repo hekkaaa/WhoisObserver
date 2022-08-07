@@ -5,7 +5,7 @@ namespace WhoisObserver.Services.WhoisServersClients.Interfaces
 {
     public interface IWhoisClient
     {
-        Task<string> GetResponceJson(string host);
-        Task<WhoisResponseModel> GetResponceObject(string host);
+        Task<string> ResponceJson(string host);
+        Task<WhoisResponseModel> ResponceObject(string host);
     }
 }
