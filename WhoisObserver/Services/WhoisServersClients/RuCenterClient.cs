@@ -93,7 +93,7 @@ namespace WhoisObserver.Services.WhoisServersClients
 
                 if(result != null)
                 {
-                    var end = RuCenterResponseParserHtml.ConvertInJsonWithNativeResponce(result);
+                    var end = RuCenterResponseParserHtml.ConvertInJsonWithNativeResponce(result, _mapper);
                     return end;
                 }
                 return null;
