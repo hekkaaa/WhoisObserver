@@ -3,7 +3,7 @@ The program aggregates a number of whois servers. Creates the necessary request 
 
 ## Servers used:
 - **[ip-api](https://ip-api.com/)**
-- **[ru-center](https://www.nic.ru/whois/?searchWord=)**
+- **[Ru-Center](https://www.nic.ru/whois/?searchWord=)**
 
 ## Example
 ### Async version
@@ -44,7 +44,7 @@ Test2());
 
 
 ## Download
-**[Nuget reference](#)**
+**[Nuget reference](https://www.nuget.org/packages/WhoisObserver)**
 
 
 ## Dependencies
