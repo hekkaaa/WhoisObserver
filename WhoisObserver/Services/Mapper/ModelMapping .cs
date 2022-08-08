@@ -10,14 +10,19 @@ namespace WhoisObserver.Services.Mapper
         {
             CreateMap<WhoisResponseModel, IpApiModel>().ReverseMap();
             //.ForMember(w => w.City, x => x.MapFrom(ip => ip.region));
-            CreateMap<RuCenterModel, WhoisResponseModel>()
+            CreateMap<RuCenterIpAddressModel, WhoisResponseModel>()
                 .ConvertUsing<PersonConverterJsonRuCenter>();
+            CreateMap<RuCenterHostnameModel, WhoisResponseModel>()
+                .ForMember(w => w.Status, x => x.MapFrom(ip => ip.state))
+                .ForMember(w => w.Orgabusename, x => x.MapFrom(ip => ip.registrar))
+                .ForMember(w => w.Inetnum, x => x.MapFrom(ip => ip.nserver))
+                .ForMember(w => w.Orgabusephone, x => x.MapFrom(ip => ip.admincontact));
         }
     }
 
-    public class PersonConverterJsonRuCenter : ITypeConverter<RuCenterModel, WhoisResponseModel>
+    public class PersonConverterJsonRuCenter : ITypeConverter<RuCenterIpAddressModel, WhoisResponseModel>
     {
-        public WhoisResponseModel Convert(RuCenterModel source, WhoisResponseModel destination, ResolutionContext context)
+        public WhoisResponseModel Convert(RuCenterIpAddressModel source, WhoisResponseModel destination, ResolutionContext context)
         {
 
            if(source.created is null)
