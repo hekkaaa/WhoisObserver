@@ -2,16 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>Pototsky Alexander</Authors>
     <Company>Pototsky Alexander</Company>
     <Product>WhoisObserver</Product>
-    <Description>whios help library</Description>
-    <Copyright>Pototsky Alexander</Copyright>
+    <Description>The program aggregates a number of whois servers. Creates the necessary request and interprets the response into a common object.</Description>
+    <Copyright>MIT</Copyright>
     <PackageProjectUrl>https://github.com/hekkaaa/WhoisObserver</PackageProjectUrl>
     <RepositoryUrl>https://github.com/hekkaaa/WhoisObserver</RepositoryUrl>
     <PackageTags>whios, parsin, lookup, dns</PackageTags>
-    <AssemblyVersion>0.0.1</AssemblyVersion>
-    <Version>0.0.1</Version>
+    <AssemblyVersion></AssemblyVersion>
+    <Version>1.0.0</Version>
+    <PackageId>WhoisObserver</PackageId>
+    <PackageReleaseNotes>add 2 first whois server</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

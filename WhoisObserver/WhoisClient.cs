@@ -8,6 +8,10 @@ using WhoisObserver.Services.WhoisServersClients;
 
 namespace WhoisObserver
 {
+
+    /// <summary>
+    /// Provides the ability to make requests to the WHOIS server from the list.
+    /// </summary>
     public class WhoisClient
     {
         private Context _context;
@@ -19,6 +23,12 @@ namespace WhoisObserver
             InitializationСConfigureMapper();
         }
 
+        /// <summary>
+        /// Attempts to create an asynchronous request to the whois server and converts the response to JSON.
+        /// </summary>
+        /// <param name="host">The address of the remote machine you want to get information about.</param>
+        /// <param name="server">The server to which the request will be sent.</param>
+        /// <exception cref="ArgumentException">The selected whois server does not exist.</exception>
         public async Task<string> GetResponceJsonAsync(string host, ServersClientFamily server)
         {
             switch (server)
@@ -31,17 +41,17 @@ namespace WhoisObserver
                     _context.SetStrategy(new RuCenterClient(_mapper));
                     return await _context.GetResponseJsonAsync(host);
 
-                case ServersClientFamily.TestClient:
-                    _context.SetStrategy(new TestClient(_mapper));
-                    return await _context.GetResponseJsonAsync(host);
-
                 default:
                     throw new ArgumentException("Sorry, specified server is not in the list");
             }
-
-            return null;
         }
 
+        /// <summary>
+        /// Attempts to create an asynchronous request to the whois server and converts the response to WhoisResponseModel.
+        /// </summary>
+        /// <param name="host">The address of the remote machine you want to get information about.</param>
+        /// <param name="server">The server to which the request will be sent.</param>
+        /// <exception cref="ArgumentException">The selected whois server does not exist.</exception>
         public async Task<WhoisResponseModel> GetResponceModelAsync(string host, ServersClientFamily server)
         {
             switch (server)
@@ -54,15 +64,9 @@ namespace WhoisObserver
                     _context.SetStrategy(new RuCenterClient(_mapper));
                     return await _context.GetResponseModelAsync(host);
 
-                case ServersClientFamily.TestClient:
-                    _context.SetStrategy(new TestClient(_mapper));
-                    return await _context.GetResponseModelAsync(host);
-
                 default:
                     throw new ArgumentException("Sorry, specified server is not in the list");
             }
-
-            return null;
         }
 
 
