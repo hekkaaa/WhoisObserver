@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using WhoisObserver.Services.Model;
 using WhoisObserver.Services.Model.ClientModel;
+using WhoisObserver.Services.Model.InputModel;
 
 namespace WhoisObserver.Services.Helpers
 {
@@ -15,7 +17,6 @@ namespace WhoisObserver.Services.Helpers
                 char[] delimiterChars = { '\n', '\r' };
                 string[] splitHtmlContent = htmlContent.Split(delimiterChars, System.StringSplitOptions.RemoveEmptyEntries);
 
-                //List<string> tmpCollection = new List<string>();
                 Dictionary<string, string> resultDict = new Dictionary<string, string>();
 
                 foreach (string valuesContents in splitHtmlContent)
@@ -53,20 +54,77 @@ namespace WhoisObserver.Services.Helpers
             return null;
         }
 
+        public static Dictionary<string, string> ParseHtmlResponseContentWithNoFree(List<RuCenterListFormatterInputModel> formatterContent)
+        {
+            if (formatterContent != null)
+            {
+                Dictionary<string, string> resultDict = new Dictionary<string, string>();
 
-        public static string ConvertDictInJsonResponceString(Dictionary<string, string> convertDict, IMapper mapper)
+                foreach (var valuesContents in formatterContent)
+                {
+                    if (valuesContents.name is null) continue;
+
+                    else
+                    {
+                        try
+                        {
+                            // clearing the key of unnecessary characters '-'.
+                            string[] tmpClearedKeyArrayFromChar = valuesContents.name.Split('-');
+                            valuesContents.name = string.Empty;
+
+                            // rebuild key after Split.
+                            foreach (var key in tmpClearedKeyArrayFromChar)
+                            {
+                                valuesContents.name = string.Concat(valuesContents.name, key.ToLower());
+                            }
+
+                            resultDict.Add(valuesContents.name, valuesContents.value.ToString());
+                        }
+                        catch (Exception)
+                        {
+                            resultDict[valuesContents.name] += ", " + valuesContents.value.ToString();
+                        }
+                    }
+                }
+
+                return resultDict;
+            }
+
+            return null;
+        }
+
+
+        public static string ConvertDictInJsonHostnameResponceString(Dictionary<string, string> convertDict, IMapper mapper)
         {
             string json = JsonConvert.SerializeObject(convertDict);
-            RuCenterModel objConvertNativeModel = System.Text.Json.JsonSerializer.Deserialize<RuCenterModel>(json);
+            RuCenterHostnameModel objConvertNativeModel = System.Text.Json.JsonSerializer.Deserialize<RuCenterHostnameModel>(json);
             WhoisResponseModel WhoisModel = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
 
             return JsonConvert.SerializeObject(WhoisModel);
         }
 
-        public static WhoisResponseModel ConvertDictInWhoisModel(Dictionary<string, string> convertDict, IMapper mapper)
+        public static string ConvertDictInJsonIpResponceString(Dictionary<string, string> convertDict, IMapper mapper)
         {
             string json = JsonConvert.SerializeObject(convertDict);
-            RuCenterModel objConvertNativeModel = System.Text.Json.JsonSerializer.Deserialize<RuCenterModel>(json);
+            RuCenterIpAddressModel objConvertNativeModel = System.Text.Json.JsonSerializer.Deserialize<RuCenterIpAddressModel>(json);
+            WhoisResponseModel WhoisModel = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
+
+            return JsonConvert.SerializeObject(WhoisModel);
+        }
+
+        public static WhoisResponseModel ConvertDictInWhoisIpModel(Dictionary<string, string> convertDict, IMapper mapper)
+        {
+            string json = JsonConvert.SerializeObject(convertDict);
+            RuCenterIpAddressModel objConvertNativeModel = System.Text.Json.JsonSerializer.Deserialize<RuCenterIpAddressModel>(json);
+            WhoisResponseModel resultWhoisModel = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
+
+            return resultWhoisModel;
+        }
+
+        public static WhoisResponseModel ConvertDictInWhoisHosnameModel(Dictionary<string, string> convertDict, IMapper mapper)
+        {
+            string json = JsonConvert.SerializeObject(convertDict);
+            RuCenterHostnameModel objConvertNativeModel = System.Text.Json.JsonSerializer.Deserialize<RuCenterHostnameModel>(json);
             WhoisResponseModel resultWhoisModel = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
 
             return resultWhoisModel;

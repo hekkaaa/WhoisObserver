@@ -1,6 +1,6 @@
 ﻿namespace WhoisObserver.Services.Model.ClientModel
 {
-    public class RuCenterModel
+    public class RuCenterIpAddressModel
     {
         public string adminc { get; set; }
         public string address { get; set; }

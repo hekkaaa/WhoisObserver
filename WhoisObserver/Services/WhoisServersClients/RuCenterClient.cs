@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Threading.Tasks;
 using WhoisObserver.Services.Helpers;
 using WhoisObserver.Services.Model;
@@ -19,8 +17,9 @@ namespace WhoisObserver.Services.WhoisServersClients
         private const string request = "https://www.nic.ru/app/v1/get/whois";
         private IMapper _mapper;
 
-        private string htmlContent = null;
-        private string statusRequest = null;
+        private string _htmlContent = null;
+        private string _statusRequest = null;
+        private List<RuCenterListFormatterInputModel> _formattedContent;
 
         public RuCenterClient(IMapper mapper)
         {
@@ -33,32 +32,32 @@ namespace WhoisObserver.Services.WhoisServersClients
             await CreateRequest(host);
 
             // hostname type ip-address - '8.8.8.8'
-            if (statusRequest == "ip_info")
+            if (_statusRequest == "ip_info")
             {
 
-                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(htmlContent);
+                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(_htmlContent);
 
                 if (result != null)
                 {
-                    return RuCenterResponseParserHtml.ConvertDictInJsonResponceString(result, _mapper);
+                    return RuCenterResponseParserHtml.ConvertDictInJsonIpResponceString(result, _mapper);
                 }
                 return null;
             }
 
             // hostname type - 'google.com'
-            if (statusRequest == "not_free")
+            if (_statusRequest == "not_free")
             {
-                //Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(htmlContent);
+                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithNoFree(_formattedContent);
 
-                //if (result != null)
-                //{
-                //    return RuCenterResponseParserHtml.ConvertDictInJsonResponceString(result, _mapper);
-                //}
-                //return null;
+                if (result != null)
+                {
+                    return RuCenterResponseParserHtml.ConvertDictInJsonHostnameResponceString(result, _mapper);
+                }
+                return null;
             }
 
             // not valid hostname\ip-address - '169.254.169.253:2323'
-            if (statusRequest == "fail") return null;
+            if (_statusRequest == "fail") return null;
 
             return null;
         }
@@ -69,26 +68,32 @@ namespace WhoisObserver.Services.WhoisServersClients
             await CreateRequest(host);
 
             // hostname type ip-address - '8.8.8.8'
-            if (statusRequest == "ip_info")
+            if (_statusRequest == "ip_info")
             {
 
-                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(htmlContent);
+                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(_htmlContent);
 
                 if (result != null)
                 {
-                    return RuCenterResponseParserHtml.ConvertDictInWhoisModel(result, _mapper);
+                    return RuCenterResponseParserHtml.ConvertDictInWhoisIpModel(result, _mapper);
                 }
                 return null;
             }
 
             // hostname type - 'google.com'
-            if (statusRequest == "not_free")
+            if (_statusRequest == "not_free")
             {
-               // TODO
+                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithNoFree(_formattedContent);
+
+                if (result != null)
+                {
+                    return RuCenterResponseParserHtml.ConvertDictInWhoisHosnameModel(result, _mapper);
+                }
+                return null;
             }
 
             // not valid hostname\ip-address - '169.254.169.253:2323'
-            if (statusRequest == "fail") return null;
+            if (_statusRequest == "fail") return null;
 
             return null;
         }
@@ -107,8 +112,9 @@ namespace WhoisObserver.Services.WhoisServersClients
 
                 RuCenterOriginInputModel account = System.Text.Json.JsonSerializer.Deserialize<RuCenterOriginInputModel>(responseBody);
 
-                statusRequest = account.body.status;
-                htmlContent = account.body.list.First().html;
+                _statusRequest = account.body.status;
+                _formattedContent = account.body.list.First().formatted;
+                _htmlContent = account.body.list.First().html;
                 return true;
             }
         }

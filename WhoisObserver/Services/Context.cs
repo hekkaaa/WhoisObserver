@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
-using WhoisObserver.Services.Mapper;
 using WhoisObserver.Services.Model;
 using WhoisObserver.Services.WhoisServersClients.Interfaces;
 
@@ -29,9 +25,9 @@ namespace WhoisObserver.Services
         public async Task<string> GetResponseJsonAsync(string host)
         {
             var result = await this._strategy.ResponceJson(host);
-       
+
             if (!String.IsNullOrWhiteSpace(result))
-            {   
+            {
                 return result;
             }
             else

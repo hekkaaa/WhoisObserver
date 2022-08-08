@@ -1,7 +1,7 @@
 ﻿namespace WhoisObserver.Services.Model
 {
     public class WhoisResponseModel
-    {
+    {   
         public string Address { get; set; } = null;
         public string As { get; set; } = null;
         public string Adminc { get; set; } = null;
@@ -29,6 +29,8 @@
         public string Orgabusephone { get; set; } = null;
         public string Orgid { get; set; } = null;
         public string Orgtechhandle { get; set; } = null;
-
+        public string source { get; set; } = null;
+        public string paidtill { get; set; } = null;
+        public string freedate { get; set; } = null;
     }
 }
