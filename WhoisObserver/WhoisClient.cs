@@ -28,8 +28,8 @@ namespace WhoisObserver
                     return await _context.GetResponseJsonAsync(host);
 
                 case ServersClientFamily.RuCenter:
-                    //_context.SetStrategy(new IpApiClient(_mapper));
-                    break;
+                    _context.SetStrategy(new RuCenterClient(_mapper));
+                    return await _context.GetResponseJsonAsync(host);
 
                 case ServersClientFamily.TestClient:
                     _context.SetStrategy(new TestClient(_mapper));
@@ -51,8 +51,8 @@ namespace WhoisObserver
                     return await _context.GetResponseModelAsync(host);
 
                 case ServersClientFamily.RuCenter:
-                    //_context.SetStrategy(new IpApiClient(_mapper));
-                    break;
+                    _context.SetStrategy(new RuCenterClient(_mapper));
+                    return await _context.GetResponseModelAsync(host);
 
                 case ServersClientFamily.TestClient:
                     _context.SetStrategy(new TestClient(_mapper));
