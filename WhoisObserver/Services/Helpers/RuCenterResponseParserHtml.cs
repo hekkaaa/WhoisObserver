@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Net.Http.Json;
 using WhoisObserver.Services.Model;
 using WhoisObserver.Services.Model.ClientModel;
 
@@ -55,14 +54,22 @@ namespace WhoisObserver.Services.Helpers
         }
 
 
-        public static string ConvertInJsonWithNativeResponce(Dictionary<string, string> convertDict, IMapper mapper)
+        public static string ConvertDictInJsonResponceString(Dictionary<string, string> convertDict, IMapper mapper)
         {
-            var json = JsonConvert.SerializeObject(convertDict);
+            string json = JsonConvert.SerializeObject(convertDict);
             RuCenterModel objConvertNativeModel = System.Text.Json.JsonSerializer.Deserialize<RuCenterModel>(json);
-            var test1 = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
+            WhoisResponseModel WhoisModel = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
 
-            //var oo = JsonConvert.SerializeObject(account1);
-            return json;
+            return JsonConvert.SerializeObject(WhoisModel);
+        }
+
+        public static WhoisResponseModel ConvertDictInWhoisModel(Dictionary<string, string> convertDict, IMapper mapper)
+        {
+            string json = JsonConvert.SerializeObject(convertDict);
+            RuCenterModel objConvertNativeModel = System.Text.Json.JsonSerializer.Deserialize<RuCenterModel>(json);
+            WhoisResponseModel resultWhoisModel = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
+
+            return resultWhoisModel;
         }
     }
 }

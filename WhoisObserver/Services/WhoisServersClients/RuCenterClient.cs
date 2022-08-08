@@ -19,6 +19,9 @@ namespace WhoisObserver.Services.WhoisServersClients
         private const string request = "https://www.nic.ru/app/v1/get/whois";
         private IMapper _mapper;
 
+        private string htmlContent = null;
+        private string statusRequest = null;
+
         public RuCenterClient(IMapper mapper)
         {
             _mapper = mapper;
@@ -26,13 +29,77 @@ namespace WhoisObserver.Services.WhoisServersClients
 
         public async Task<string> ResponceJson(string host)
         {
-            string htmlContent = null;
-            string statusRequest = null;
 
+            await CreateRequest(host);
+
+            // hostname type ip-address - '8.8.8.8'
+            if (statusRequest == "ip_info")
+            {
+
+                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(htmlContent);
+
+                if (result != null)
+                {
+                    return RuCenterResponseParserHtml.ConvertDictInJsonResponceString(result, _mapper);
+                }
+                return null;
+            }
+
+            // hostname type - 'google.com'
+            if (statusRequest == "not_free")
+            {
+                //Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(htmlContent);
+
+                //if (result != null)
+                //{
+                //    return RuCenterResponseParserHtml.ConvertDictInJsonResponceString(result, _mapper);
+                //}
+                //return null;
+            }
+
+            // not valid hostname\ip-address - '169.254.169.253:2323'
+            if (statusRequest == "fail") return null;
+
+            return null;
+        }
+
+
+        public async Task<WhoisResponseModel> ResponceObject(string host)
+        {
+            await CreateRequest(host);
+
+            // hostname type ip-address - '8.8.8.8'
+            if (statusRequest == "ip_info")
+            {
+
+                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(htmlContent);
+
+                if (result != null)
+                {
+                    return RuCenterResponseParserHtml.ConvertDictInWhoisModel(result, _mapper);
+                }
+                return null;
+            }
+
+            // hostname type - 'google.com'
+            if (statusRequest == "not_free")
+            {
+               // TODO
+            }
+
+            // not valid hostname\ip-address - '169.254.169.253:2323'
+            if (statusRequest == "fail") return null;
+
+            return null;
+        }
+
+
+        private async Task<bool> CreateRequest(string host)
+        {
             using (HttpClient httpClient = new HttpClient())
             {
                 RuCenterHeaderOutputModel head = new RuCenterHeaderOutputModel() { lang = "en", searchWord = host };
-                
+
                 JsonContent jsonHead = JsonContent.Create(head, null);
 
                 HttpResponseMessage response = httpClient.PostAsync(request, jsonHead).Result;
@@ -42,81 +109,8 @@ namespace WhoisObserver.Services.WhoisServersClients
 
                 statusRequest = account.body.status;
                 htmlContent = account.body.list.First().html;
+                return true;
             }
-
-            // hostname type ip-address - '8.8.8.8'
-            if(statusRequest == "ip_info")
-            {
-
-                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(htmlContent);
-                //if (htmlContent != null)
-                //{
-                //    char[] delimiterChars = { '\n', '\r' };
-                //    string[] splitHtmlContent = htmlContent.Split(delimiterChars, System.StringSplitOptions.RemoveEmptyEntries);
-
-                //    //List<string> tmpCollection = new List<string>();
-                //    Dictionary<string, string> tmpDict = new Dictionary<string, string>();
-
-                //    foreach (string valuesContents in splitHtmlContent)
-                //    {
-                //        if (!valuesContents.Contains('%') && !valuesContents.Contains('#'))
-                //        {
-                //            try
-                //            {
-                //                // Split string key and value.
-                //                string[] tmpValuesContents = valuesContents.Split(':');
-
-                //                // clearing the key of unnecessary characters '-', ' '.
-                //                string[] tmpClearedKeyArrayFromChar = tmpValuesContents[0].Split('-', ' ');
-                //                tmpValuesContents[0] = string.Empty;
-
-                //                // rebuild key after Split.
-                //                foreach (var key in tmpClearedKeyArrayFromChar)
-                //                {
-                //                    tmpValuesContents[0] = string.Concat(tmpValuesContents[0], key.ToLower());
-                //                }
-
-                //                tmpDict.Add(tmpValuesContents[0], tmpValuesContents[1].Trim(new char[] { ' ' }));
-                //            }
-                //            catch (System.ArgumentException)
-                //            {
-                //                // Error when repeating the key.
-                //                continue;
-                //            }
-                //        }
-
-
-                //    }
-
-                //    return null;
-                //}
-
-                if(result != null)
-                {
-                    var end = RuCenterResponseParserHtml.ConvertInJsonWithNativeResponce(result, _mapper);
-                    return end;
-                }
-                return null;
-            }
-
-            // hostname type - 'google.com'
-            if(statusRequest == "not_free")
-            {
-                return null;
-            }
-            // not valid hostname\ip-address - '169.254.169.253:2323'
-            if (statusRequest == "fail")
-            {
-
-            }
-
-            
-            return null;
-        }
-
-        public Task<WhoisResponseModel> ResponceObject(string host)
-        {
-            throw new NotImplementedException();
         }
     }
 }
