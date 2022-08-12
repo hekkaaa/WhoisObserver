@@ -41,6 +41,10 @@ namespace WhoisObserver
                     _context.SetStrategy(new RuCenterClient(_mapper));
                     return await _context.GetResponseJsonAsync(host);
 
+                case ServersClientFamily.WhoisRu:
+                    _context.SetStrategy(new WhoisRuClient(_mapper));
+                    return await _context.GetResponseJsonAsync(host);
+
                 default:
                     throw new ArgumentException("Sorry, specified server is not in the list");
             }
@@ -62,6 +66,10 @@ namespace WhoisObserver
 
                 case ServersClientFamily.RuCenter:
                     _context.SetStrategy(new RuCenterClient(_mapper));
+                    return await _context.GetResponseModelAsync(host);
+
+                case ServersClientFamily.WhoisRu:
+                    _context.SetStrategy(new WhoisRuClient(_mapper));
                     return await _context.GetResponseModelAsync(host);
 
                 default:
