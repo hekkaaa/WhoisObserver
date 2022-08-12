@@ -34,7 +34,6 @@ namespace WhoisObserver.Services.WhoisServersClients
             // hostname type ip-address - '8.8.8.8'
             if (_statusRequest == "ip_info")
             {
-
                 Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(_htmlContent);
 
                 if (result != null)
