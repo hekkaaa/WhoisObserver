@@ -4,6 +4,7 @@ The program aggregates a number of whois servers. Creates the necessary request 
 ## Servers used:
 - **[ip-api](https://ip-api.com/)**
 - **[Ru-Center](https://www.nic.ru/whois/?searchWord=)**
+- **[whois.ru](https://whois.ru/8.8.8.8)**
 
 ## Example
 ### Async version
