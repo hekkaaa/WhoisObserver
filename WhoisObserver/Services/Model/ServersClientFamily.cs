@@ -7,5 +7,6 @@
     {
         IpApi = 1,
         RuCenter,
+        WhoisRu,
     }
 }

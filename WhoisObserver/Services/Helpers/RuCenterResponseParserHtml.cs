@@ -21,7 +21,7 @@ namespace WhoisObserver.Services.Helpers
 
                 foreach (string valuesContents in splitHtmlContent)
                 {
-                    if (!valuesContents.Contains("%") && !valuesContents.Contains("#"))
+                    if (!valuesContents.Contains("%") && !valuesContents.Contains("#") && !valuesContents.Contains(">"))
                     {
                         try
                         {
@@ -44,6 +44,10 @@ namespace WhoisObserver.Services.Helpers
                         {
                             // Error when repeating the key.
                             continue;
+                        }
+                        catch (Exception ex)
+                        {
+                            break;
                         }
                     }
                 }
@@ -128,6 +132,12 @@ namespace WhoisObserver.Services.Helpers
             WhoisResponseModel resultWhoisModel = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
 
             return resultWhoisModel;
+        }
+
+        public static string ConvertInNativeJsonResponce(Dictionary<string, string> convertDict)
+        {
+            string json = JsonConvert.SerializeObject(convertDict);
+            return json;
         }
     }
 }
