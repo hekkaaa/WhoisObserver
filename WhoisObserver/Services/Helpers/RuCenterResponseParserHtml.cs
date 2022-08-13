@@ -21,7 +21,7 @@ namespace WhoisObserver.Services.Helpers
 
                 foreach (string valuesContents in splitHtmlContent)
                 {
-                    if (!valuesContents.Contains("%") && !valuesContents.Contains("#"))
+                    if (!valuesContents.Contains("%") && !valuesContents.Contains("#") && !valuesContents.Contains(">"))
                     {
                         try
                         {
@@ -44,6 +44,10 @@ namespace WhoisObserver.Services.Helpers
                         {
                             // Error when repeating the key.
                             continue;
+                        }
+                        catch (Exception ex)
+                        {
+                            break;
                         }
                     }
                 }

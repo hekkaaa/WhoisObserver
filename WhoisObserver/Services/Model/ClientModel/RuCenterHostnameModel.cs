@@ -12,5 +12,16 @@
         public string paidtill { get; set; }
         public string freedate { get; set; }
         public string source { get; set; }
+        public string domainname { get; set; }
+        public string registrydomainid { get; set; }
+        public string registrarwhoisserver { get; set; }
+        public string updateddate { get; set; }
+        public string creationdate { get; set; }
+        public string registryexpirydate { get; set; }
+        public string registrarianaid { get; set; }
+        public string registrarabusecontactphone { get; set; }
+        public string nameserver { get; set; }
+        public string dnssec { get; set; }
+
     }
 }
