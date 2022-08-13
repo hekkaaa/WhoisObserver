@@ -23,5 +23,10 @@ namespace WhoisObserver.Services.WhoisServersClients
         {
             return Task.FromResult(string.Empty);
         }
+
+        public Task<string> OriginalJsonResponceFromServer(string host)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

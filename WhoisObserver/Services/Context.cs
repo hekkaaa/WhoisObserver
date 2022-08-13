@@ -46,5 +46,17 @@ namespace WhoisObserver.Services
             }
             return result;
         }
+
+        public async Task<string> GetResponseOriginalJsonAsync(string host)
+        {
+            string result = await this._strategy.OriginalJsonResponceFromServer(host);
+
+            if (result == null)
+            {
+                throw new NullReferenceException();
+            }
+            return result;
+        }
+        
     }
 }

@@ -7,5 +7,6 @@ namespace WhoisObserver.Services.WhoisServersClients.Interfaces
     {
         Task<string> ResponceJson(string host);
         Task<WhoisResponseModel> ResponceObject(string host);
+        Task<string> OriginalJsonResponceFromServer(string host);
     }
 }

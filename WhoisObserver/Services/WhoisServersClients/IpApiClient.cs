@@ -18,6 +18,11 @@ namespace WhoisObserver.Services.WhoisServersClients
             _mapper = mapper;
         }
 
+        public async Task<string> OriginalJsonResponceFromServer(string host)
+        {
+            return await ResponceJson(host);
+        }
+
         public async Task<string> ResponceJson(string host)
         {
             string request = $"http://ip-api.com/json/{host}";
