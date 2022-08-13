@@ -12,9 +12,9 @@
     <RepositoryUrl>https://github.com/hekkaaa/WhoisObserver</RepositoryUrl>
     <PackageTags>whios, parsin, lookup, dns</PackageTags>
     <AssemblyVersion></AssemblyVersion>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <PackageId>WhoisObserver</PackageId>
-    <PackageReleaseNotes>add 2 first whois server</PackageReleaseNotes>
+    <PackageReleaseNotes>Add new server </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
