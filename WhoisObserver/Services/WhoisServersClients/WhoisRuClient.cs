@@ -21,7 +21,7 @@ namespace WhoisObserver.Services.WhoisServersClients
             _mapper = mapper;
         }
 
-        public Task<string> ResponceJson(string host)
+        public async Task<string> ResponceJson(string host)
         {
             string url = request + host;
             string resultResponce = HtmlAgilityPack(url);
@@ -29,16 +29,23 @@ namespace WhoisObserver.Services.WhoisServersClients
 
             if (result != null)
             {
-                //return WhoisRuResponceParserHtml.ConvertDictInJsonIpResponceString(result, _mapper);
+                return WhoisRuResponceParserHtml.ConvertDictInJsonIpResponceString(result, _mapper);
             }
 
             return null;
         }
 
-        public Task<WhoisResponseModel> ResponceObject(string host)
+        public async Task<WhoisResponseModel> ResponceObject(string host)
         {
             string url = request + host;
             string resultResponce = HtmlAgilityPack(url);
+            Dictionary<string, string> result = WhoisRuResponceParserHtml.ParseHtmlResponseContent(resultResponce);
+
+            if (result != null)
+            {
+                return WhoisRuResponceParserHtml.ConvertDictInWhoisRuModel(result, _mapper);
+            }
+
             return null;
         }
 

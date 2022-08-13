@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using WhoisObserver.Services.Model.ClientModel;
 using WhoisObserver.Services.Model;
+using WhoisObserver.Services.Model.ClientModel;
 
 namespace WhoisObserver.Services.Helpers
 {
@@ -24,9 +23,17 @@ namespace WhoisObserver.Services.Helpers
             WhoisResponseModel WhoisModel = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
 
             return JsonConvert.SerializeObject(WhoisModel);
-
         }
-        
+
+        public static WhoisResponseModel ConvertDictInWhoisRuModel(Dictionary<string, string> convertDict, IMapper mapper)
+        {
+            string json = JsonConvert.SerializeObject(convertDict);
+            WhoisRuModel objConvertNativeModel = System.Text.Json.JsonSerializer.Deserialize<WhoisRuModel>(json);
+            WhoisResponseModel WhoisModel = mapper.Map<WhoisResponseModel>(objConvertNativeModel);
+
+            return WhoisModel;
+        }
+
         private static Dictionary<string, string> ConvertToDictionaryJson(List<string> notParseList)
         {
             Dictionary<string, string> resultDict = new Dictionary<string, string>();
@@ -38,14 +45,14 @@ namespace WhoisObserver.Services.Helpers
                 try
                 {
                     // pre-last split - delete ': and ' ' (space).
-                    string[] splitStringCollection = values.Split(':', ' ');
+                    string[] splitStringCollection = values.Split(' ');
                     foreach (string value in splitStringCollection)
                     {
                         if (!string.IsNullOrWhiteSpace(value)) tmpConvertList.Add(value);
                     }
 
                     // clearing the key of unnecessary characters '-'.
-                    string[] tmpClearedKeyArrayFromChar = tmpConvertList.First().Split('-');
+                    string[] tmpClearedKeyArrayFromChar = tmpConvertList.First().Split('-',':');
                     tmpConvertList[0] = string.Empty;
 
                     // rebuild key after Split.s
@@ -68,7 +75,7 @@ namespace WhoisObserver.Services.Helpers
 
         private static List<string> SplitNativeTextinHtmlElement(string notSplitText)
         {
-            
+
             string[] firstSplit = notSplitText.Split('>');
             string[] twoIterationSplit = firstSplit.First().Split('\r', '\n');
 

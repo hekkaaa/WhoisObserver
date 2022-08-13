@@ -46,7 +46,16 @@ namespace WhoisObserver.Services.WhoisServersClients
             // hostname type - 'google.com'
             if (_statusRequest == "not_free")
             {
-                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithNoFree(_formattedContent);
+                Dictionary<string, string> result = null;
+
+                if (_formattedContent == null)
+                {
+                    result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(_htmlContent);
+                }
+                else
+                {
+                    result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithNoFree(_formattedContent);
+                }
 
                 if (result != null)
                 {
@@ -82,7 +91,16 @@ namespace WhoisObserver.Services.WhoisServersClients
             // hostname type - 'google.com'
             if (_statusRequest == "not_free")
             {
-                Dictionary<string, string> result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithNoFree(_formattedContent);
+                Dictionary<string, string> result = null;
+
+                if (_formattedContent == null)
+                {
+                    result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithIpInfo(_htmlContent);
+                }
+                else
+                {
+                    result = RuCenterResponseParserHtml.ParseHtmlResponseContentWithNoFree(_formattedContent);
+                }
 
                 if (result != null)
                 {
