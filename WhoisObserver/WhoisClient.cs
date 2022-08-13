@@ -78,6 +78,34 @@ namespace WhoisObserver
         }
 
 
+        /// <summary>
+        /// Tries to create an asynchronous request to the whois server and returns an original response from the server in JSON.
+        /// </summary>
+        /// <param name="host">The address of the remote machine you want to get information about.</param>
+        /// <param name="server">The server to which the request will be sent.</param>
+        /// <exception cref="ArgumentException">The selected whois server does not exist.</exception>
+        public async Task<string> GetResponceOriginalJsonAsync(string host, ServersClientFamily server)
+        {
+            switch (server)
+            {
+                case ServersClientFamily.IpApi:
+                    _context.SetStrategy(new IpApiClient(_mapper));
+                    return await _context.GetResponseOriginalJsonAsync(host);
+
+                case ServersClientFamily.RuCenter:
+                    _context.SetStrategy(new RuCenterClient(_mapper));
+                    return await _context.GetResponseOriginalJsonAsync(host);
+
+                case ServersClientFamily.WhoisRu:
+                    _context.SetStrategy(new WhoisRuClient(_mapper));
+                    return await _context.GetResponseOriginalJsonAsync(host);
+
+                default:
+                    throw new ArgumentException("Sorry, specified server is not in the list");
+            }
+        }
+
+
         private void InitializationСConfigureMapper()
         {
             var config = new MapperConfiguration(cfg =>

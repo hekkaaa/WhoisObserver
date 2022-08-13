@@ -34,6 +34,13 @@ namespace WhoisObserver.Services.Helpers
             return WhoisModel;
         }
 
+
+        public static string ConvertInNativeJsonResponce(Dictionary<string, string> convertDict)
+        {
+            string json = JsonConvert.SerializeObject(convertDict);
+            return json;
+        }
+
         private static Dictionary<string, string> ConvertToDictionaryJson(List<string> notParseList)
         {
             Dictionary<string, string> resultDict = new Dictionary<string, string>();

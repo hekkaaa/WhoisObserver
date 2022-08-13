@@ -133,5 +133,11 @@ namespace WhoisObserver.Services.Helpers
 
             return resultWhoisModel;
         }
+
+        public static string ConvertInNativeJsonResponce(Dictionary<string, string> convertDict)
+        {
+            string json = JsonConvert.SerializeObject(convertDict);
+            return json;
+        }
     }
 }

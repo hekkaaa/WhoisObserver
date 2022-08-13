@@ -21,6 +21,20 @@ namespace WhoisObserver.Services.WhoisServersClients
             _mapper = mapper;
         }
 
+        public async Task<string> OriginalJsonResponceFromServer(string host)
+        {
+            string url = request + host;
+            string resultResponce = HtmlAgilityPack(url);
+            Dictionary<string, string> result = WhoisRuResponceParserHtml.ParseHtmlResponseContent(resultResponce);
+
+            if (result != null)
+            {
+                return WhoisRuResponceParserHtml.ConvertInNativeJsonResponce(result);
+            }
+
+            return null;
+        }
+
         public async Task<string> ResponceJson(string host)
         {
             string url = request + host;
